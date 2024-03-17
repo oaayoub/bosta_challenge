@@ -4,7 +4,7 @@ const registerView = async (req, res) => {
 }
 // For View 
 const loginView = async (req, res) => {
-    res.send({"setup" : "omar logges in"});
+    res.send({"loginView" : "omar logges in"});
 
 }
 const basicView = async (req, res) => {
@@ -14,7 +14,7 @@ const basicView = async (req, res) => {
 }
 
 const send = async (req, res) => {
-    res.send({"send" : "omar logges in"});
+
     try {
         const data = await pool.query('SELECT * FROM schools')
         res.status(200).send(data.rows)
@@ -26,7 +26,7 @@ const send = async (req, res) => {
 
 const ins = async (req, res) => {
 
-    const { name, location } = req.body
+    const { name, location } = req.query
     try {
         await pool.query('INSERT INTO schools (name, address) VALUES ($1, $2)', [name, location])
         res.status(200).send({ message: "Successfully added child" })
@@ -39,8 +39,6 @@ const ins = async (req, res) => {
 
 const setup = async (req, res) => {
     console.log("setup called")
-    res.send({"setup" : "omar logges in"});
-
     try {
         await pool.query('CREATE TABLE schools( id SERIAL PRIMARY KEY, name VARCHAR(100), address VARCHAR(100))')
         console.log("passed")
