@@ -1,6 +1,7 @@
-var http = require('http');
-
-http.createServer(function (req, res) {
-  res.writeHead(200, {'Content-Type': 'text/html'});
-  res.end('Hello World!');
-}).listen(8080);
+const express = require('express');
+const app = express();
+app.set('view engine', 'ejs');
+//Routes
+app.use('/', require('./routes/trialRouter'));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, console.log("Server has started at port " + PORT))
