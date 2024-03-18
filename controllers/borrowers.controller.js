@@ -2,10 +2,10 @@ const express = require("express");
 const getCurrentLine = require('get-current-line')
 const router = express.Router();
 const Service = require("../services/borrowers.service");
-const authenticator = require("../middlewares/authenticator.middleware");
+const generateBorrowerToken = require("../helpers/jwt.helper");
 
 // Define route handlers
-router.get("/list",authenticator, async (req, res) => {
+router.get("/list", async (req, res) => {
   try {
     const borrowers = await Service.getAllBorrowers();
     res.status(200).send(borrowers);
@@ -20,7 +20,7 @@ router.post("/", async (req, res) => {
     const { name, email } = req.body;
     const borrowerInfo = { name, email };
     Service.addBorrower(borrowerInfo);
-    var token = Service.generateBorrowerToken(borrowerInfo);
+    var token = generateBorrowerToken(borrowerInfo);
     res.status(200).send({token})
   } catch (err) {
     console.error(err);

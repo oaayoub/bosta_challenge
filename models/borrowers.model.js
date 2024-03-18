@@ -31,6 +31,15 @@ class Model {
     console.log("🧔 modify borrower result🖌: \n", data);
     return data;
   }
+
+  static async searchBorrower(email) {
+    const data = await postgresClient.query(
+      `SELECT * FROM borrower WHERE email = '${email}';`
+    );
+    console.log("search borrower data", data);
+    const books = data.rows;
+    return books;
+  }
 }
 
 module.exports = Model;

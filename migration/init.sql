@@ -65,6 +65,19 @@ VALUES
     ('Lorem User', 'Lorem@example.com'),
     ('Jane Ipsium', 'Ipsium@example.com'),
     ('Michael Jordon', 'nba@example.com');
+
+INSERT INTO borrow_books (ISBN, borrower_id, valid_from, valid_to)
+SELECT 
+    b.ISBN,
+    br.uid,
+    CURRENT_TIMESTAMP, -- Set valid_from as current timestamp
+    CURRENT_TIMESTAMP + INTERVAL '30 days' -- Set valid_to as 30 days from current timestamp
+FROM 
+    book b
+CROSS JOIN 
+    borrower br
+WHERE 
+    random() < 0.2; 
     
 -- Create trigger to update modified_at timestamp on UPDATE
 CREATE OR REPLACE FUNCTION update_modified_at()

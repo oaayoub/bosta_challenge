@@ -1,7 +1,7 @@
 const postgresClient = require("../clients/postgresClient");
-const bookHelper = require("../helpers/books.helper");
+const createBookModifyQuery = require("../helpers/books.helper");
 
-class Model {
+class BookModel {
   static async getAllBooks() {
     const data = await postgresClient.query("SELECT * FROM book");
     const books = data.rows;
@@ -17,10 +17,12 @@ class Model {
   }
 
   static async getBookByAuthor(author) {
+    console.log("get book by author")
     const data = await postgresClient.query(
       `SELECT * FROM book WHERE author LIKE '%${author}%';`
     );
     const books = data.rows;
+    console.log("get book by author res",books)
     return books;
   }
 
@@ -33,7 +35,8 @@ class Model {
   }
 
   static async updateBook(ISBN, updates) {
-    const sqlCommand = bookHelper(ISBN, updates);
+    console.log("modeBook updateBook : ",ISBN,updates)
+    const sqlCommand = createBookModifyQuery(ISBN, updates);
     const data = await postgresClient.query(sqlCommand);
     const books = data.rows;
     console.log("📚modify book SQL🖌: \n", sqlCommand);
@@ -64,4 +67,4 @@ class Model {
   }
 }
 
-module.exports = Model;
+module.exports = BookModel;
