@@ -2,7 +2,8 @@ const ReservationModel = require("../models/reservations.model");
 const BooksModel = require("../models/books.model");
 const BooksService = require("./books.service");
 const BorrowersService = require("./borrowers.service");
-class Service {
+
+class ReservationService {
   static async reserveBook(bookInfo, email) {
     console.log("🔖 reservationService bookInfo", bookInfo);
     console.log("🔖 reservationService email", email);
@@ -64,25 +65,18 @@ class Service {
     return await ReservationModel.getAllReservationsOfBorrower(borrower.uid);
   }
 
-  static async returnBook(ISBN,email) {
+  static async returnBook(ISBN, email) {
     var borrowerInfo = await BorrowersService.searchBorrower(email);
-    console.log(
-      "🔖 reservationService returnBook:",
-      borrowerInfo
-    );
+    console.log("🔖 reservationService returnBook:", borrowerInfo);
 
     if (borrowerInfo.length === 0) {
       console.log("no borrower with this mail");
       return null;
     }
-    console.log(
-        "🔖 reservationService returnBook:",
-        ISBN,
-        email
-      );
+    console.log("🔖 reservationService returnBook:", ISBN, email);
     var borrower = borrowerInfo[0];
-    return await ReservationModel.returnBook(ISBN,borrower.uid);
+    return await ReservationModel.returnBook(ISBN, borrower.uid);
   }
 }
 
-module.exports = Service;
+module.exports = ReservationService;

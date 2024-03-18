@@ -1,12 +1,11 @@
-const { router: booksController } = require("./books.controller");
-const { router: analyticsController } = require("./analytics.controller");
-const { router: borrowersController } = require("./borrowers.controller");
-const { router: reservationsController } = require("./reservations.controller");
-const { router: registerController } = require("./register.controller");
+const booksController = require("./books.controller");
+const analyticsController = require("./analytics.controller");
+const borrowersController = require("./borrowers.controller");
+const reservationsController = require("./reservations.controller");
+
 module.exports = {
   booksController,
   analyticsController,
   borrowersController,
   reservationsController,
-  registerController,
 };

@@ -1,12 +1,12 @@
 const express = require('express');
 const getCurrentLine = require('get-current-line')
 const router = express.Router();
-const Service = require('../services/books.service')
+const BooksService = require('../services/books.service')
 
 // Define route handlers
 router.get('/list', async (req, res) => {
     try {
-        var books = await Service.getAllBooks()
+        var books = await BooksService.getAllBooks()
         res.status(200).send(books)
     } catch (err) {
         console.log(err)
@@ -19,7 +19,7 @@ router.get('/', async (req, res) => {
     try {
         const bookInfo = { ISBN,title,author } = req.query;
         console.log("search for book controller 🕹: ",bookInfo)
-        var books = await Service.searchForBook(bookInfo)
+        var books = await BooksService.searchForBook(bookInfo)
         res.status(200).send(books)
     } catch (err) {
         console.log(err)
@@ -34,7 +34,7 @@ router.post('/add', async (req, res) => {
     const parsed_quantity = parseInt(available_quantity); // Parse to integer
     try {
         const bookData = { title, ISBN, author, available_quantity: parsed_quantity, shelf_location };
-        Service.insertBook(bookData)
+        BooksService.insertBook(bookData)
         res.status(200).send("🔵Book inserted succefully🔵")
     } catch (err) {
         console.log("🔴\nmy object: %o\n🔴",getCurrentLine.default())
@@ -48,7 +48,7 @@ router.put('/', async (req, res) => {
     const parsed_quantity = parseInt(available_quantity); // Parse to integer
     try {
         const bookData = { title, author, available_quantity: parsed_quantity, shelf_location };
-        const books = await Service.modifyBook(ISBN,bookData)
+        const books = await BooksService.modifyBook(ISBN,bookData)
         res.status(200).send("🔵Book inserted succefully🔵\n",books,"\n")
     } catch (err) {
         console.log("🔴\nmy object: %o\n🔴",getCurrentLine.default())
@@ -61,7 +61,7 @@ router.delete('/', async (req, res) => {
     const {ISBN} = req.body;
     try {
         const bookData = {ISBN};
-        const books = await Service.deleteBook(ISBN)
+        const books = await BooksService.deleteBook(ISBN)
         res.status(200).send("🔶Book DELETED succefully🔶\n",books,"\n")
     } catch (err) {
         console.log("🔴\nmy object: %o\n🔴",getCurrentLine.default())

@@ -1,45 +1,73 @@
 const postgresClient = require("../clients/postgresClient");
-const borrowerHelper = require("../helpers/borrower.helper");
-class Model {
+const { createBorrowerModifyQuery } = require("../helpers/updateQuery.helper");
+const getCurrentLine = require("get-current-line");
+const InternalError = require("../Error/Internal.error");
+
+class BorrowersModel {
   static async getAllBorrowers() {
-    const data = await postgresClient.query("SELECT * FROM borrower");
-    console.log("borrowers data", data);
-    const books = data.rows;
-    return books;
+    try {
+      const data = await postgresClient.query("SELECT * FROM borrower");
+      console.log("borrowers data", data);
+      const books = data.rows;
+      return books;
+    } catch (err) {
+      console.log("🔴\nmy object: %o\n🔴", getCurrentLine.default());
+      throw new InternalError(`🧔⭕DB ERROR :  ${bookData}  not working`);
+    }
   }
 
   static async insertBorrower(borrowerInfo) {
-    console.log("🧔borrower model", borrowerInfo);
-    await postgresClient.query(
-      "INSERT INTO borrower (email, name) VALUES ($1, $2)",
-      [borrowerInfo.email, borrowerInfo.name]
-    );
-    console.log("🧔Inserted data succeffly");
+    try {
+      console.log("🧔borrower model", borrowerInfo);
+      await postgresClient.query(
+        "INSERT INTO borrower (email, name) VALUES ($1, $2)",
+        [borrowerInfo.email, borrowerInfo.name]
+      );
+      console.log("🧔Inserted data succeffly");
+    } catch (err) {
+      console.log("🔴\nmy object: %o\n🔴", getCurrentLine.default());
+      throw new InternalError(`🧔⭕DB ERROR :  ${bookData}  not working`);
+    }
   }
 
   static async deleteBorrower(email) {
-    let result = await postgresClient.query(
-      `DELETE FROM borrower WHERE email = '${email}';`
-    );
-    return result;
+    try {
+      let result = await postgresClient.query(
+        `DELETE FROM borrower WHERE email = '${email}';`
+      );
+      return result;
+    } catch (err) {
+      console.log("🔴\nmy object: %o\n🔴", getCurrentLine.default());
+      throw new InternalError(`🧔⭕DB ERROR :  ${bookData}  not working`);
+    }
   }
 
   static async updateBorrower(email, updates) {
-    const sqlCommand = borrowerHelper(email, updates);
-    console.log("🧔 modify borrower SQL🖌: \n", sqlCommand);
-    const data = await postgresClient.query(sqlCommand);
-    console.log("🧔 modify borrower result🖌: \n", data);
-    return data;
+    try {
+      const sqlCommand = createBorrowerModifyQuery(email, updates);
+      console.log("🧔 modify borrower SQL🖌: \n", sqlCommand);
+      const data = await postgresClient.query(sqlCommand);
+      console.log("🧔 modify borrower result🖌: \n", data);
+      return data;
+    } catch (err) {
+      console.log("🔴\nmy object: %o\n🔴", getCurrentLine.default());
+      throw new InternalError(`🧔⭕DB ERROR :  ${email, updates}  not working`);
+    }
   }
 
   static async searchBorrower(email) {
-    const data = await postgresClient.query(
-      `SELECT * FROM borrower WHERE email = '${email}';`
-    );
-    console.log("search borrower data", data);
-    const books = data.rows;
-    return books;
+    try {
+      const data = await postgresClient.query(
+        `SELECT * FROM borrower WHERE email = '${email}';`
+      );
+      console.log("search borrower data", data);
+      const books = data.rows;
+      return books;
+    } catch (err) {
+      console.log("🔴\nmy object: %o\n🔴", getCurrentLine.default());
+      throw new InternalError(`🧔⭕DB ERROR :  ${bookData}  not working`);
+    }
   }
 }
 
-module.exports = Model;
+module.exports = BorrowersModel;

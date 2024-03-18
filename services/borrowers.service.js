@@ -2,7 +2,7 @@ const Model = require("../models/borrowers.model");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-class Service {
+class BorrowerService {
   static async getAllBorrowers() {
     return await Model.getAllBorrowers();
   }
@@ -24,4 +24,4 @@ class Service {
   }
 }
 
-module.exports = Service;
+module.exports = BorrowerService;
