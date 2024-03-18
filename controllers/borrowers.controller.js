@@ -1,4 +1,5 @@
 const express = require("express");
+const getCurrentLine = require('get-current-line')
 const router = express.Router();
 const Service = require("../services/borrowers.service");
 const authenticator = require("../middlewares/authenticator.middleware");
@@ -13,7 +14,7 @@ router.get("/list",authenticator, async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
-// Define route handlers
+
 router.post("/", async (req, res) => {
   try {
     const { name, email } = req.body;
@@ -24,6 +25,32 @@ router.post("/", async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+
+router.delete("/", async (req, res) => {
+  try {
+    const {email} = req.body;
+    const borrowers = await Service.deleteBorrower(email)
+    res.status(200).send("🧔🕹 🔶borrowers DELETED succefully🔶\n")
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "🧔🕹Internal Server Error" });
+  }
+});
+
+
+router.put("/", async (req, res) => {
+  const { email,name } = req.body;
+  try {
+      const borrowerData = { email,name };
+      console.log("borrower data", borrowerData)
+      const status = await Service.updateBorrower(email,borrowerData)
+      res.status(200).send("🧔🕹 borrowers Updated succefully 🖌")
+  } catch (err) {
+      console.log("🔴\nmy object: %o\n🔴",getCurrentLine.default())
+      res.sendStatus(500)
   }
 });
 

@@ -1,22 +1,38 @@
-const Model = require('../models/books.model')
+const Model = require("../models/books.model");
 
 class Service {
-    static async getAllBooks() {
-        return Model.getAllBooks()
-    }
+  static async getAllBooks() {
+    return await Model.getAllBooks();
+  }
 
-    static async getBookByISBN() {
-        return Model.getBookByISBN()
+  static async searchForBook(bookInfo) {
+    console.log("search for book 🔍: ", bookInfo);
+    switch (true) {
+      case bookInfo.author !== undefined:
+        return await Model.getBookByAuthor(bookInfo.author);
 
-    }
+      case bookInfo.ISBN !== undefined:
+        return await Model.getBookByISBN(bookInfo.ISBN);
 
-    static async getBookByAuthor() {
-        return Model.getBookByAuthor()
-    }
+      case bookInfo.title !== undefined:
+        return await Model.getBookByTitle(bookInfo.title);
 
-    static async insertBook(bookData) {
-        return Model.insertBook(bookData)
+      default:
+        throw new Error("Invalid book info provided.");
     }
+  }
+
+  static async insertBook(bookData) {
+    return await Model.insertBook(bookData);
+  }
+
+  static async modifyBook(ISBN, update) {
+    return await Model.updateBook(ISBN, update);
+  }
+
+  static async deleteBook(ISBN) {
+    return await Model.deleteBook(ISBN);
+  }
 }
 
 module.exports = Service;
