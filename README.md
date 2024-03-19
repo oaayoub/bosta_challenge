@@ -18,10 +18,13 @@ Our solution is crafted using cutting-edge technologies:
 
 The primary features of our system include:
 
-- **Borrowing books**: Users can borrow books.
-- **Adding Books**: Users can borrow books.
-- all functional
-- **Analytics**: The ability to filter conversations based on selected feeds.
+- **Adding books**: Add a book with details like title, author, ISBN, available quantity, and shelf location.
+- **Modifying Books**: Update a book’s details and delete books.
+- **Search Books**: Search for a book by title, author, or ISBN.
+- **Register Borrowers**: Register a borrower with details like name, email, and registered date.
+- **Modifying Borrowers**: Update a borrower’s details and can delete borrowers.
+- **Reservations**: A borrower can check the books they currently have. and can return a book
+- **Analytics**: The system can show analytical reports of the borrowing process in a specific period and export the borrowing process data in CSV or Xlsx sheet formats e.x.
 
 ### Requirements
 
