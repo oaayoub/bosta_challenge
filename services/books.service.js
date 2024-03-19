@@ -1,9 +1,26 @@
 const {BooksModel} = require("../models/index");
-
+const {redisClient} = require("../clients/index");
+const redisKeys = require("../constants/redisKeys.constants");
 class BookService {
   
   static async getAllBooks() {
-    return await BooksModel.getAllBooks();
+    var cachedBooks = await redisClient.getCached(redisKeys[0])
+    console.debug("🔶📝 service getAllBooks :: ",cachedBooks)
+    if(cachedBooks!==null){
+      try {
+        var parsedData = await JSON.parse(cachedBooks);
+        console.debug("Prased data :::",parsedData)
+        return parsedData
+      }
+      catch(e){
+        console.error("couldnt parse data")
+      }
+      return cachedBooks
+    }
+    var books = await BooksModel.getAllBooks();
+    console.debug("🔶📝 service writing  :: ",books)
+    redisClient.writeData(redisKeys[0],books)
+    return 
   }
 
   static async searchForBook(bookInfo) {

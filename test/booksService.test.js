@@ -30,7 +30,7 @@ describe("BookService", () => {
       const result = await BookService.searchForBook(bookInfo);
       expect(result).to.deep.equal(expectedBookFromTitle);
     });
-
+    
     it("should return book by author", async () => {
       const bookInfo = { author: "Author" };
       const result = await BookService.searchForBook(bookInfo);
