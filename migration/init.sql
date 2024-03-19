@@ -87,6 +87,16 @@ WHERE
     random() < 0.2; 
     
 -- Create trigger to update modified_at timestamp on UPDATE
+
+--dummy data for testing analytics 
+INSERT INTO borrow_books (ISBN, borrower_id, valid_from, valid_to, return_date)
+VALUES
+    ('978-3-16-148411-0', 1, '2024-03-01', '2024-03-15', '2024-03-11'),--past month , returned ✔
+    ('978-3-16-148411-0', 2, '2024-01-05', '2024-01-20', '3001-01-01'),--not past month not returned
+    ('978-3-16-148411-0', 2, '2024-02-15', '2024-03-10', '3001-01-01'),--past month not returned ✔
+    ('978-3-16-148411-0', 2, '2024-02-15', '2024-03-15', '3001-01-01');--past month not returned ✔
+
+
 CREATE OR REPLACE FUNCTION update_modified_at()
 RETURNS TRIGGER AS $$
 BEGIN

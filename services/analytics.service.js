@@ -9,7 +9,7 @@ class AnalyticsService {
         console.debug("Service 📈 getReservationsLastMonth")
         return await AnalyticsModel.getReservationsWithPeriod()
     }
-    static async getReservationsWithPeriod(from,to){
+    static async getReservationsWithPeriod(from,to) {
         console.debug("Service 📈 getReservationsWithPeriod")
         return await AnalyticsModel.getReservationsWithPeriod(from,to)
     }
