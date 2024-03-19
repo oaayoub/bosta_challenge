@@ -19,8 +19,10 @@ router.post("/", async (req, res) => {
   try {
     const { name, email } = req.body;
     const borrowerInfo = { name, email };
+    console.debug("🕹🔖 borrower info",borrowerInfo)
     BorrowersService.addBorrower(borrowerInfo);
     var token = generateBorrowerToken(borrowerInfo);
+    console.debug("🕹🔖 token",token)
     res.status(201).send({token})
   } catch (err) {
     console.error(err);

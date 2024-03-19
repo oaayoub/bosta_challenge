@@ -1,4 +1,4 @@
-const postgresClient = require("../clients/postgresClient");
+const { postgresClient } = require("../clients/index");
 const getCurrentLine = require("get-current-line");
 const InternalError = require("../Error/Internal.error");
 
@@ -8,13 +8,14 @@ class ReservationsModel {
       const data = await postgresClient.query(`
       SELECT * 
       FROM borrow_books
-      `
-      );
+      `);
       const reservations = data.rows;
       return reservations;
     } catch (err) {
       console.log("🔴\nmy object: %o\n🔴", getCurrentLine.default());
-      throw new InternalError(`🔖⭕DB ReservationsModel ERROR : getAllReservations`);
+      throw new InternalError(
+        `🔖⭕DB ReservationsModel ERROR : getAllReservations`
+      );
     }
   }
 
@@ -27,7 +28,9 @@ class ReservationsModel {
       return reservations;
     } catch (err) {
       console.log("🔴\nmy object: %o\n🔴", getCurrentLine.default());
-      throw new InternalError(`🔖⭕DB ReservationsModel ERROR getAllReservationsOfBorrower:  ${borrower_id}`);
+      throw new InternalError(
+        `🔖⭕DB ReservationsModel ERROR getAllReservationsOfBorrower:  ${borrower_id}`
+      );
     }
   }
 
@@ -46,7 +49,9 @@ class ReservationsModel {
       return rows;
     } catch (err) {
       console.log("🔴\nmy object: %o\n🔴", getCurrentLine.default());
-      throw new InternalError(`🔖⭕DB ReservationsModel ERROR returnBook:  ${ISBN, borrower_id} `);
+      throw new InternalError(
+        `🔖⭕DB ReservationsModel ERROR returnBook:  ${(ISBN, borrower_id)} `
+      );
     }
   }
 
@@ -67,7 +72,9 @@ class ReservationsModel {
       console.log("🔖Inserted data succeffly");
     } catch (err) {
       console.log("🔴\nmy object: %o\n🔴", getCurrentLine.default());
-      throw new InternalError(`🔖⭕DB ReservationsModel ERROR reserveBook:  ${ISBN, borrower_id} `);
+      throw new InternalError(
+        `🔖⭕DB ReservationsModel ERROR reserveBook:  ${(ISBN, borrower_id)} `
+      );
     }
   }
 }

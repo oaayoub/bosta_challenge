@@ -1,3 +1,10 @@
+CREATE EXTENSION pg_trgm;
+CREATE EXTENSION btree_gin;
+-- CREATE EXTENSION pg_cron;
+
+--grant usage to regular users:
+-- GRANT USAGE ON SCHEMA cron TO marco;
+
 CREATE TABLE book (
     ISBN varchar(30) PRIMARY KEY,
     author varchar(255) NOT NULL,
@@ -105,3 +112,11 @@ CREATE INDEX idx_email ON borrower USING HASH (email);
 
 CREATE INDEX idx_isbn_bid
 ON borrow_books(ISBN,borrower_id);
+
+--TODO : Make delte triggered and add filters to all borrowers 🔶 to make cron job useful
+--cron job to delete borrowers that deleted their account and 30 days passed since then
+-- SELECT cron.schedule('0 0 * * *', $$ -- Schedule the job to run every day at midnight
+--   DELETE FROM borrower 
+--   WHERE is_deleted = true 
+--   AND modified_at < NOW() - INTERVAL '30 days';
+-- $$);

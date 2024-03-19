@@ -1,4 +1,4 @@
-const postgresClient = require("../clients/postgresClient");
+const { postgresClient } = require("../clients/index");
 const { createBookModifyQuery } = require("../helpers/updateQuery.helper");
 const InternalError = require("../Error/Internal.error");
 const getCurrentLine = require("get-current-line");
@@ -10,9 +10,7 @@ class BookModel {
       const books = data.rows;
       return books;
     } catch (err) {
-      throw new InternalError(
-        `📚⭕DB ERROR : SELECT * FROM book; not working`
-      );
+      throw new InternalError(`📚⭕DB ERROR : SELECT * FROM book; not working`);
     }
   }
 
@@ -35,7 +33,7 @@ class BookModel {
     try {
       console.log("get book by author");
       const data = await postgresClient.query(
-        'SELECT * FROM book WHERE author LIKE $1;',
+        "SELECT * FROM book WHERE author LIKE $1;",
         [`%${author}%`]
       );
       const books = data.rows;
@@ -52,7 +50,7 @@ class BookModel {
   static async getBookByTitle(title) {
     try {
       const data = await postgresClient.query(
-        'SELECT * FROM book WHERE author LIKE $1;',
+        "SELECT * FROM book WHERE author LIKE $1;",
         [`%${title}%`]
       );
       const books = data.rows;
@@ -67,11 +65,11 @@ class BookModel {
 
   static async updateBook(ISBN, updates) {
     try {
-      console.warn("71")
+      console.warn("71");
       const sqlCommand = createBookModifyQuery(ISBN, updates);
-      console.log("omar111",sqlCommand)
+      console.log("omar111", sqlCommand);
       const data = await postgresClient.query(sqlCommand);
-      console.warn("73")
+      console.warn("73");
       const books = data.rows;
       console.log("📚modify book SQL🖌: \n", sqlCommand);
       console.log("📚modify book result🖌: \n", books);

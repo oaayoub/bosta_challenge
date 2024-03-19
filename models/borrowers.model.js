@@ -1,4 +1,4 @@
-const postgresClient = require("../clients/postgresClient");
+const { postgresClient } = require("../clients/index");
 const { createBorrowerModifyQuery } = require("../helpers/updateQuery.helper");
 const getCurrentLine = require("get-current-line");
 const InternalError = require("../Error/Internal.error");
@@ -78,7 +78,6 @@ class BorrowersModel {
         WHERE email = $1;`,
         [email]
       );
-      console.log("search borrower data", data);
       const books = data.rows;
       return books;
     } catch (err) {
