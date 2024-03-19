@@ -38,11 +38,10 @@ To get started with our system, ensure you have the following:
 Follow these steps to set up the project locally:
 
 1. Ensure you have Docker and Docker Compose installed on your machine.
-2. Clone the repository: `git clone `
-3. Navigate to the project directory: `cd BOSTA_CHALLENGE`
+2. Clone the repository: `gh repo clone oaayoub/bosta_challenge`
+3. Navigate to the project directory: `cd bosta_challenge`
 4. Build the Docker image: `docker-compose build`
 5. Start the containers: `docker-compose up -d`
-
 
 ### Docker Containers
 
@@ -54,8 +53,19 @@ Our application utilizes the following Docker containers:
 
 ### API Endpoint Overview
 [Swagger](https://app.swaggerhub.com/apis-docs/OAAYOUB0101/library-management_api/1.0.0#/)
-### Additional Feature: Redis Integration
+### Additional Features:
 
-In addition to the core components mentioned above, our project also incorporates Redis. Redis serves as a key-value store, enhancing the performance and efficiency of our system. This integration is particularly beneficial for our library management system, ensuring swift and reliable access to critical data.
+## Analytics:
+Implemented `/analytics` endpoint that allows users to retrieve reports for specific timeframes. Additionally, reports can be downloaded as CSV files for further I
 
-With our robust architecture and innovative features, we're poised to revolutionize the landscape of online conversation analysis. Let's delve into the possibilities together!
+## Security:
+To safeguard against vulnerabilities, Integrated PostgreSQL parameterization. This ensures values are treated as data, not executable commands, preventing SQL injection attacks.
+
+## Redis Integration:
+Project leverages Redis caching to store frequently accessed data. This significantly reduces database load and delivers faster response times.
+
+## Data retention (pg_cronn):
+implemented scheduled tasks (Postgres cron jobs) to automatically delete user accounts that have been inactive and flagged for removal for 30 days
+
+## Indexing:
+Database Applied to optimize queries and accelerate data retrieval for specific searches.
