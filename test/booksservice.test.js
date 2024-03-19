@@ -1,9 +1,8 @@
-const chai = require('chai');
+const chai = require("chai");
 const { expect } = chai;
 var sinon = require("sinon");
-const BooksModel = require("../../models/books.model");
-const BookService = require("../../services/books.service");
-
+const BooksModel = require("../models/books.model");
+const BookService = require("../services/books.service");
 
 const expectedBookFromISBN = { title: "Book 1", ISBN: "12345" };
 sinon.stub(BooksModel, "getBookByISBN").resolves(expectedBookFromISBN);
@@ -15,14 +14,11 @@ const expectedBookFromAuthor = { title: "Book 3", author: "Author" };
 sinon.stub(BooksModel, "getBookByAuthor").resolves(expectedBookFromAuthor);
 
 describe("BookService", () => {
-  describe("getAllBooks()", () => {
-    it("should return all books", async () => {
-      const result = await BookService.getAllBooks();
-      expect(result).to.deep.equal(expectedBooks);
-    });
+  it("should return all books", async () => {
+    const result = await BookService.getAllBooks();
+    expect(result).to.deep.equal(expectedBooks);
   });
-
-  describe("searchForBook()", () => {
+  describe("should search For Book", () => {
     it("should return book by ISBN", async () => {
       const bookInfo = { ISBN: "12345" };
       const result = await BookService.searchForBook(bookInfo);

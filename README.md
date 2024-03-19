@@ -53,6 +53,7 @@ Our application utilizes the following Docker containers:
 
 ### API Endpoint Overview
 [Swagger](https://app.swaggerhub.com/apis-docs/OAAYOUB0101/library-management_api/1.0.0#/)
+
 ### Additional Features:
 
 ## Analytics:
@@ -69,3 +70,6 @@ implemented scheduled tasks (Postgres cron jobs) to automatically delete user ac
 
 ## Indexing:
 Database Applied to optimize queries and accelerate data retrieval for specific searches.
+
+## Test Coverage:
+Used nyc module for test coverage, For usage use `npm test`

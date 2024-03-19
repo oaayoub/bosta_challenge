@@ -1,16 +1,23 @@
-const c = require("config");
 const redisClient = require("../clients/redis.client");
+let endpointTo
 
+function requestToKey(req){
+  var key = []
+  const elements = url.split('/');
+  const root = elements[1];
+  key.push(root)
+  key.push(req.url)
+  var redisKey = key.join('-');
+  return redisKey
+}
 function isRedisWorking() {
-  // verify wheter there is an active connection
-  // to a Redis server or not
+  //force unwrap redisClient
   return !!redisClient?.isOpen;
 }
 
 async function writeData(key, data, options) {
   if (isRedisWorking()) {
     try {
-      // write data to the Redis cache
       await redisClient.set(key, data, options);
     } catch (e) {
       console.error(`Failed to cache data for key=${key}`, e);
@@ -22,11 +29,8 @@ async function readData(key) {
   let cachedValue = undefined;
 
   if (isRedisWorking()) {
-    // try to get the cached response from redis
     cachedValue = await redisClient.get(key);
-    if (cachedValue) {
-      return cachedValue;
-    }
+    if (cachedValue) return cachedValue;
   }
 }
 function redisCacheMiddleware(
@@ -36,11 +40,12 @@ function redisCacheMiddleware(
 ) {
   return async (req, res, next) => {
     if (req.method === "GET" && isRedisWorking()) {
-      console.debug("caching res")
+      console.debug("caching res");
       const key = requestToKey(req);
       // if there is some cached data, retrieve it and return it
       const cachedValue = await readData(key);
-      if (cachedValue) {
+      var valideCachedValue = true
+      if (cachedValue && valideCachedValue) {
         try {
           // if it is JSON data, then return it
           return res.json(JSON.parse(cachedValue));
