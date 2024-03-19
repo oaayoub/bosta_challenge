@@ -35,7 +35,8 @@ class BookModel {
     try {
       console.log("get book by author");
       const data = await postgresClient.query(
-        `SELECT * FROM book WHERE author LIKE '%${author}%';`
+        'SELECT * FROM book WHERE author LIKE $1;',
+        [`%${author}%`]
       );
       const books = data.rows;
       console.log("get book by author res", books);
@@ -51,7 +52,8 @@ class BookModel {
   static async getBookByTitle(title) {
     try {
       const data = await postgresClient.query(
-        `SELECT * FROM book WHERE title LIKE '%${title}%';`
+        'SELECT * FROM book WHERE author LIKE $1;',
+        [`%${title}%`]
       );
       const books = data.rows;
       return books;
@@ -65,9 +67,11 @@ class BookModel {
 
   static async updateBook(ISBN, updates) {
     try {
-      console.log("modeBook updateBook : ", ISBN, updates);
+      console.warn("71")
       const sqlCommand = createBookModifyQuery(ISBN, updates);
+      console.log("omar111",sqlCommand)
       const data = await postgresClient.query(sqlCommand);
+      console.warn("73")
       const books = data.rows;
       console.log("📚modify book SQL🖌: \n", sqlCommand);
       console.log("📚modify book result🖌: \n", books);
@@ -83,7 +87,10 @@ class BookModel {
   static async deleteBook(ISBN) {
     try {
       let res = await postgresClient.query(
-        `DELETE FROM book WHERE ISBN = '${ISBN}';`
+        `DELETE 
+        FROM book 
+        WHERE ISBN = $1;`,
+        [ISBN]
       );
       console.log("IMP:: ", res);
       return res;
@@ -98,7 +105,9 @@ class BookModel {
   static async insertBook(bookData) {
     try {
       await postgresClient.query(
-        "INSERT INTO book (title, ISBN,author, available_quantity,shelf_location) VALUES ($1, $2,$3,$4,$5)",
+        `INSERT 
+        INTO book (title, ISBN,author, available_quantity,shelf_location) 
+        VALUES ($1, $2,$3,$4,$5)`,
         [
           bookData.title,
           bookData.ISBN,

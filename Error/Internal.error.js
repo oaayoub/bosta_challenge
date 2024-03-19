@@ -1,11 +1,11 @@
-class InternalError extends Error {
+class InternalServerError extends Error {
     //Use error 500 for Internal because that means
     //we recieved good query from Service
     //Internal Errors comes from postgres & helpers
-    constructor(msg, status = 500) {
+    constructor(msg) {
         super(msg);
-        this.status = status;
+        this.status = 500;
     }
 }
 
-module.exports = InternalError
+module.exports = InternalServerError

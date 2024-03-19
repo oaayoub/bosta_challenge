@@ -5,7 +5,11 @@ const InternalError = require("../Error/Internal.error");
 class ReservationsModel {
   static async getAllReservations() {
     try {
-      const data = await postgresClient.query("SELECT FROM borrow_books");
+      const data = await postgresClient.query(`
+      SELECT * 
+      FROM borrow_books
+      `
+      );
       const reservations = data.rows;
       return reservations;
     } catch (err) {
@@ -30,7 +34,11 @@ class ReservationsModel {
   static async returnBook(ISBN, borrower_id) {
     try {
       const query = {
-        text: "DELETE FROM borrow_books WHERE ISBN = $1 AND borrower_id = $2",
+        text: `
+        DELETE 
+        FROM borrow_books 
+        WHERE ISBN = $1 
+        AND borrower_id = $2`,
         values: [ISBN, borrower_id],
       };
 
@@ -51,7 +59,9 @@ class ReservationsModel {
       const thirtyDaysFromNowTimestamp = thirtyDaysFromNow.toISOString();
 
       await postgresClient.query(
-        "INSERT INTO borrow_books (ISBN, borrower_id, valid_from, valid_to) VALUES ($1, $2,$3,$4)",
+        `INSERT 
+        INTO borrow_books (ISBN, borrower_id, valid_from, valid_to) 
+        VALUES ($1, $2,$3,$4)`,
         [ISBN, borrower_id, currentTimestamp, thirtyDaysFromNowTimestamp]
       );
       console.log("🔖Inserted data succeffly");

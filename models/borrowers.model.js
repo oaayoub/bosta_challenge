@@ -6,7 +6,10 @@ const InternalError = require("../Error/Internal.error");
 class BorrowersModel {
   static async getAllBorrowers() {
     try {
-      const data = await postgresClient.query("SELECT * FROM borrower");
+      const data = await postgresClient.query(`
+      SELECT *
+      FROM borrower
+      `);
       console.log("borrowers data", data);
       const books = data.rows;
       return books;
@@ -20,7 +23,11 @@ class BorrowersModel {
     try {
       console.log("🧔borrower model", borrowerInfo);
       await postgresClient.query(
-        "INSERT INTO borrower (email, name) VALUES ($1, $2)",
+        `
+        INSERT 
+        INTO borrower (email, name)
+        VALUES ($1, $2)
+         `,
         [borrowerInfo.email, borrowerInfo.name]
       );
       console.log("🧔Inserted data succeffly");
@@ -33,7 +40,12 @@ class BorrowersModel {
   static async deleteBorrower(email) {
     try {
       let result = await postgresClient.query(
-        `DELETE FROM borrower WHERE email = '${email}';`
+        `
+        DELETE
+        FROM borrower
+        WHERE email = $1';
+        `,
+        [email]
       );
       return result;
     } catch (err) {
@@ -51,14 +63,20 @@ class BorrowersModel {
       return data;
     } catch (err) {
       console.log("🔴\nmy object: %o\n🔴", getCurrentLine.default());
-      throw new InternalError(`🧔⭕DB ERROR :  ${email, updates}  not working`);
+      throw new InternalError(
+        `🧔⭕DB ERROR :  ${(email, updates)}  not working`
+      );
     }
   }
 
   static async searchBorrower(email) {
     try {
       const data = await postgresClient.query(
-        `SELECT * FROM borrower WHERE email = '${email}';`
+        `
+        SELECT *
+        FROM borrower 
+        WHERE email = $1;`,
+        [email]
       );
       console.log("search borrower data", data);
       const books = data.rows;

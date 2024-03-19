@@ -92,3 +92,16 @@ CREATE TRIGGER update_book_modified_at
 BEFORE UPDATE ON book
 FOR EACH ROW
 EXECUTE FUNCTION update_modified_at();
+
+
+--INDEXING 
+--Since Library Data is usually small So GIN Indexing won't take much time 
+--While providing very fast Queries
+CREATE INDEX idx_title ON book USING GIN (title); 
+CREATE INDEX idx_name ON borrower USING GIN (name); 
+--hash is used since mostly ISBN is triggered with "="  
+CREATE INDEX idx_ISBN ON book USING HASH (ISBN);  
+CREATE INDEX idx_email ON borrower USING HASH (email);  
+
+CREATE INDEX idx_isbn_bid
+ON borrow_books(ISBN,borrower_id);
