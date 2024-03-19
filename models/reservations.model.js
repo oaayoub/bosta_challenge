@@ -1,6 +1,6 @@
 const { postgresClient } = require("../clients/index");
 const getCurrentLine = require("get-current-line");
-const InternalError = require("../Error/Internal.error");
+const InternalError = require("../Error/InternalServer.error");
 
 class ReservationsModel {
   static async getAllReservations() {
@@ -22,7 +22,9 @@ class ReservationsModel {
   static async getAllReservationsOfBorrower(borrower_id) {
     try {
       const data = await postgresClient.query(
-        `SELECT * FROM borrow_books WHERE borrower_id = '${borrower_id}';`
+        `SELECT * 
+        FROM borrow_books 
+        WHERE borrower_id = '${borrower_id}';`
       );
       const reservations = data.rows;
       return reservations;
@@ -62,11 +64,13 @@ class ReservationsModel {
       const thirtyDaysFromNow = new Date();
       thirtyDaysFromNow.setDate(thirtyDaysFromNow.getDate() + 30);
       const thirtyDaysFromNowTimestamp = thirtyDaysFromNow.toISOString();
-
+      console.debug("🔖reserveBook",[ISBN, borrower_id, currentTimestamp, thirtyDaysFromNowTimestamp])
       await postgresClient.query(
-        `INSERT 
+        `
+        INSERT 
         INTO borrow_books (ISBN, borrower_id, valid_from, valid_to) 
-        VALUES ($1, $2,$3,$4)`,
+        VALUES ($1, $2,$3,$4)
+        `,
         [ISBN, borrower_id, currentTimestamp, thirtyDaysFromNowTimestamp]
       );
       console.log("🔖Inserted data succeffly");

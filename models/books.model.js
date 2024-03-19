@@ -1,6 +1,6 @@
 const { postgresClient } = require("../clients/index");
 const { createBookModifyQuery } = require("../helpers/updateQuery.helper");
-const InternalError = require("../Error/Internal.error");
+const InternalError = require("../Error/InternalServer.error");
 const getCurrentLine = require("get-current-line");
 
 class BookModel {
@@ -65,13 +65,10 @@ class BookModel {
 
   static async updateBook(ISBN, updates) {
     try {
-      console.warn("71");
       const sqlCommand = createBookModifyQuery(ISBN, updates);
-      console.log("omar111", sqlCommand);
-      const data = await postgresClient.query(sqlCommand);
-      console.warn("73");
-      const books = data.rows;
       console.log("📚modify book SQL🖌: \n", sqlCommand);
+      const data = await postgresClient.query(sqlCommand);
+      const books = data.rows;
       console.log("📚modify book result🖌: \n", books);
       return books;
     } catch (err) {

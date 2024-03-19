@@ -17,7 +17,7 @@ redisClient.on('error', (err) => console.log('<:: Redis Client Error', err));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(authenticator);
-app.use(rateLimiter);
+// app.use(rateLimiter);
 // app.use(redisCacheMiddleware);
 
 //Routes

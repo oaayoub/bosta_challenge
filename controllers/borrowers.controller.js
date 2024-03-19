@@ -2,6 +2,7 @@ const express = require("express");
 const getCurrentLine = require('get-current-line')
 const router = express.Router();
 const BorrowersService = require("../services/borrowers.service");
+const BorrowersReservationsService = require("../services/borrowers_reservations.service");
 const generateBorrowerToken = require("../helpers/jwt.helper");
 
 // Define route handlers
@@ -26,7 +27,7 @@ router.post("/", async (req, res) => {
     res.status(201).send({token})
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ message: err.msg });
   }
 });
 
@@ -34,7 +35,7 @@ router.post("/", async (req, res) => {
 router.delete("/", async (req, res) => {
   try {
     const {email} = req.body;
-    const borrowers = await BorrowersService.deleteBorrower(email)
+    const borrowers = await BorrowersReservationsService.deleteBorrower(email)
     res.status(204).send("🧔🕹 🔶borrowers DELETED succefully🔶\n")
   } catch (err) {
     console.error(err);

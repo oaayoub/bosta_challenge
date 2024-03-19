@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const ReservationsService = require('../services/reservation.service')
+const BorrowersReservationsService = require('../services/borrowers_reservations.service')
 const httpStatusCodes = require('../constants/statusCodes.constants')
 // Define route handlers
 router.get('/list', async (req, res) => {
@@ -16,7 +17,7 @@ router.get('/list', async (req, res) => {
 router.get('/', async (req, res) => {
     try {
         const email = req.email
-        const allResrevations = await ReservationsService.getAllReservationsOfBorrower(email);
+        const allResrevations = await BorrowersReservationsService.getAllReservationsOfBorrower(email);
         res.status(200).json(allResrevations);
     } catch (err) {
         console.error(err);
@@ -28,7 +29,7 @@ router.post('/', async (req, res) => {
     const bookInfo = { ISBN,title,author } = req.body;
     const email = req.email
     try {
-        const newReservation = await ReservationsService.reserveBook(bookInfo,email);
+        const newReservation = await BorrowersReservationsService.reserveBook(bookInfo,email);
         res.status(204).json({ message: httpStatusCodes[204] });
     } catch (err) {
         console.error(err);
@@ -41,7 +42,7 @@ router.delete('/', async (req, res) => {
     const email = req.email
     try {
         console.log("🔖🕹ISBN: ",ISBN)
-        const bookReturnStatus = await ReservationsService.returnBook(ISBN,email);
+        const bookReturnStatus = await BorrowersReservationsService.returnBook(ISBN,email);
         console.log("🔖🕹bookReturnStatus: ",bookReturnStatus)
         res.status(204).json({ message: httpStatusCodes[204] });
     } catch (err) {

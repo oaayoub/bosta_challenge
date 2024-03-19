@@ -1,26 +1,22 @@
-const Model = require("../models/borrowers.model");
-const jwt = require("jsonwebtoken");
+const BorrowersModel = require("../models/borrowers.model");
+
 require("dotenv").config();
 
 class BorrowerService {
   static async getAllBorrowers() {
-    return await Model.getAllBorrowers();
+    return await BorrowersModel.getAllBorrowers();
   }
 
   static async addBorrower(borrowerInfo) {
-    return await Model.insertBorrower(borrowerInfo);
+    return await BorrowersModel.insertBorrower(borrowerInfo);
   }
 
   static async updateBorrower(email, borrowerInfo) {
-    return await Model.updateBorrower(email, borrowerInfo);
-  }
-
-  static async deleteBorrower(email) {
-    return await Model.deleteBorrower(email);
+    return await BorrowersModel.updateBorrower(email, borrowerInfo);
   }
 
   static async searchBorrower(email) {
-    return await Model.searchBorrower(email);
+    return await BorrowersModel.searchBorrower(email);
   }
 }
 

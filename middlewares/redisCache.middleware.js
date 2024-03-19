@@ -1,3 +1,4 @@
+const c = require("config");
 const redisClient = require("../clients/redis.client");
 
 function isRedisWorking() {
@@ -35,6 +36,7 @@ function redisCacheMiddleware(
 ) {
   return async (req, res, next) => {
     if (req.method === "GET" && isRedisWorking()) {
+      console.debug("caching res")
       const key = requestToKey(req);
       // if there is some cached data, retrieve it and return it
       const cachedValue = await readData(key);

@@ -1,7 +1,7 @@
 const { postgresClient } = require("../clients/index");
 const { createBorrowerModifyQuery } = require("../helpers/updateQuery.helper");
 const getCurrentLine = require("get-current-line");
-const InternalError = require("../Error/Internal.error");
+const InternalError = require("../Error/InternalServer.error");
 
 class BorrowersModel {
   static async getAllBorrowers() {

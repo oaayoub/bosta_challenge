@@ -29,9 +29,9 @@ CREATE TABLE borrow_books (
     borrow_book_id SERIAL PRIMARY KEY,
     ISBN varchar(17),
     borrower_id int,
-    valid_from timestamp,
-    valid_to timestamp,
-    return_date timestamp,
+    valid_from timestamp NOT NULL,
+    valid_to timestamp NOT NULL,
+    return_date timestamp DEFAULT '3001-01-01',
     FOREIGN KEY (ISBN) REFERENCES book(ISBN),
     FOREIGN KEY (borrower_id) REFERENCES borrower(uid)
 );
