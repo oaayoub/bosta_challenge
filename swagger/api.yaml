@@ -1,0 +1,246 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "Library Management API"
+  description: "API endpoints for managing books, borrowers, reservations, and analytics"
+  
+basePath: "/"
+schemes:
+  - "http"
+paths:
+  /books/list:
+    get:
+      summary: "Get all books"
+      responses:
+        200:
+          description: "Successful operation"
+      tags:
+        - Books
+  /books:
+    get:
+      summary: "Search for books"
+      parameters:
+        - name: ISBN
+          in: query
+          type: string
+          description: "ISBN of the book"
+        - name: title
+          in: query
+          type: string
+          description: "Title of the book"
+        - name: author
+          in: query
+          type: string
+          description: "Author of the book"
+      responses:
+        200:
+          description: "Successful operation"
+      tags:
+        - Books
+    post:
+      summary: "Add a new book"
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/Book"
+      responses:
+        200:
+          description: "Book inserted successfully"
+      tags:
+        - Books
+    put:
+      summary: "Modify a book"
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/Book"
+      responses:
+        200:
+          description: "Book modified successfully"
+      tags:
+        - Books
+    delete:
+      summary: "Delete a book"
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/Book"
+      responses:
+        200:
+          description: "Book deleted successfully"
+      tags:
+        - Books
+
+  /borrowers/list:
+    get:
+      summary: "Get all borrowers"
+      responses:
+        200:
+          description: "Successful operation"
+      tags:
+        - Borrowers
+  /borrowers:
+    post:
+      summary: "Add a new borrower"
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/Borrower"
+      responses:
+        201:
+          description: "Borrower added successfully"
+      tags:
+        - Borrowers
+    delete:
+      summary: "Delete a borrower"
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/Borrower"
+      responses:
+        204:
+          description: "Borrower deleted successfully"
+      tags:
+        - Borrowers
+    put:
+      summary: "Update a borrower"
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/Borrower"
+      responses:
+        204:
+          description: "Borrower updated successfully"
+      tags:
+        - Borrowers
+
+  /reservations/list:
+    get:
+      summary: "Get all reservations"
+      responses:
+        200:
+          description: "Successful operation"
+      tags:
+        - Reservations
+  /reservations:
+    get:
+      summary: "Get reservations of a borrower"
+      responses:
+        200:
+          description: "Successful operation"
+      tags:
+        - Reservations
+    post:
+      summary: "Reserve a book"
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/Reservation"
+      responses:
+        204:
+          description: "Reservation successful"
+      tags:
+        - Reservations
+    delete:
+      summary: "Return a book"
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/Reservation"
+      responses:
+        204:
+          description: "Book returned successfully"
+      tags:
+        - Reservations
+
+  /analytics/overdue:
+    get:
+      summary: "Get overdue books from the last month"
+      responses:
+        200:
+          description: "Successful operation"
+      tags:
+        - Analytics
+  /analytics:
+    get:
+      summary: "Get reservations from the last month"
+      responses:
+        200:
+          description: "Successful operation"
+      tags:
+        - Analytics
+  /analytics/report:
+    get:
+      summary: "Generate a report"
+      parameters:
+        - name: from
+          in: query
+          type: string
+          description: "Start date for the report"
+        - name: to
+          in: query
+          type: string
+          description: "End date for the report"
+      responses:
+        200:
+          description: "Report generated successfully"
+      tags:
+        - Analytics
+definitions:
+  Book:
+    type: object
+    properties:
+      title:
+        type: string
+        description: "Title of the book"
+      ISBN:
+        type: string
+        description: "ISBN of the book"
+      author:
+        type: string
+        description: "Author of the book"
+      available_quantity:
+        type: integer
+        description: "Available quantity of the book"
+      shelf_location:
+        type: string
+        description: "Shelf location of the book"
+
+  Borrower:
+    type: object
+    properties:
+      name:
+        type: string
+        description: "Name of the borrower"
+      email:
+        type: string
+        description: "Email of the borrower"
+
+  Reservation:
+    type: object
+    properties:
+      ISBN:
+        type: string
+        description: "ISBN of the reserved book"
+      title:
+        type: string
+        description: "Title of the reserved book"
+      author:
+        type: string
+        description: "Author of the reserved book"
