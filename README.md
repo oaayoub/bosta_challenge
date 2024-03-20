@@ -55,7 +55,7 @@ Our application utilizes the following Docker containers:
 ### API Endpoint Overview
 [Swagger](https://app.swaggerhub.com/apis-docs/OAAYOUB0101/library-management_api/1.0.0#/)
 
-### Additional Features:
+# Additional Features:
 
 ## Analytics:
 Implemented `/analytics` endpoint that allows users to retrieve reports for specific timeframes. Additionally, reports can be downloaded as CSV files for further I
