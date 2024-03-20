@@ -10,9 +10,9 @@ Our solution is crafted using cutting-edge technologies:
 
 - **JavaScript**: Enhancing JavaScript with static typing for robustness.
 - **Express**: A fast, minimalist web framework for Node.js, ensuring efficient backend operations.
-- **PostgreSQL**: A SQL-relational database program.
-- **Redis**: caching sytem.
-- **Docker**: containerization sytem.
+- **PostgreSQL**: Relational database management system
+- **Redis**: Caching sytem.
+- **Docker**: Containerization sytem.
 
 ### System Features
 
