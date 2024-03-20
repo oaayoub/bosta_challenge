@@ -3,3 +3,4 @@ package-lock.json
 reports
 .nyc_output
 .db
+.example.env
