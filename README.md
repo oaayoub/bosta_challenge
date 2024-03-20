@@ -42,6 +42,7 @@ Follow these steps to set up the project locally:
 3. Navigate to the project directory: `cd bosta_challenge`
 4. Build the Docker image: `docker-compose build`
 5. Start the containers: `docker-compose up -d`
+6. It's now Listening to requests on `http://localhost:8080/`
 
 ### Docker Containers
 
