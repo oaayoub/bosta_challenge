@@ -42,14 +42,17 @@ class BookService {
   }
 
   static async insertBook(bookData) {
+    redisClient.invalidateKey(redisKeys[0])
     return await BooksModel.insertBook(bookData);
   }
 
   static async modifyBook(ISBN, update) {
+    redisClient.invalidateKey(redisKeys[0])
     return await BooksModel.updateBook(ISBN, update);
   }
 
   static async deleteBook(ISBN) {
+    redisClient.invalidateKey(redisKeys[0])
     return await BooksModel.deleteBook(ISBN);
   }
 }

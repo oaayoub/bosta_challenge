@@ -19,13 +19,15 @@ class RedisClient {
     try {
       console.debug("📝📝 writeData");
       const serializedData = JSON.stringify(data); // Serialize data if needed
-      await this.client.set(key, serializedData,{ EX: 60/*expire in 60 seconds*/ });
+      await this.client.set(key, serializedData, {
+        EX: 60 * 60 /*expire in 1hr seconds*/,
+      });
     } catch (e) {
       console.error(`Failed to cache data for key=${key}`, e);
     }
   }
 
-  async getCached(key, options = { EX: 60/*expire in 60 seconds*/ }) {
+  async getCached(key, options = { EX: 60 * 60 /*expire in 1hr seconds*/ }) {
     console.debug("caching res");
     const cachedValue = await this.client.get(key);
     console.debug("📝📝 getCached cachedValue", cachedValue);
@@ -38,6 +40,20 @@ class RedisClient {
       RedisClient.#instance = new RedisClient();
     }
     return RedisClient.#instance;
+  }
+
+  async invalidateKey(key) {
+    console.debug("invalidated key", key);
+    this.client.del(key, (err, result) => {
+      if (err) {
+        console.error("Error:", err);
+      } else {
+        console.log(
+          "Key deleted:",
+          result === 1 ? "successfully" : "not found"
+        );
+      }
+    });
   }
 }
 

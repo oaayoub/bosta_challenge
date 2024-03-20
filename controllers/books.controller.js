@@ -52,6 +52,7 @@ router.put('/', async (req, res) => {
         res.status(200).send("🔵Book inserted succefully🔵\n",books,"\n")
     } catch (err) {
         console.log("🔴\nmy object: %o\n🔴",getCurrentLine.default())
+        console.error("🔴🔴🔴🔴🔴🔴",err)
         res.sendStatus(500)
     }
 });
